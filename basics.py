@@ -34,3 +34,18 @@ def raise_exception_if_called_too_many_times(function, call_count_threshold: int
 
     decorated._call_count = 0
     return decorated
+
+
+# 2 INPUT: sorted array. Write func(x) -> iterable of unique
+
+import itertools
+from typing import Iterable
+
+
+def get_unique_iterable(sorted_iterable: Iterable) -> Iterable:
+    """
+    >>> tuple(get_unique_iterable([1, 'a', 'a', 'a', 'f', 'h', 'k', 'k']))
+    (1, 'a', 'f', 'h', 'k')
+    """
+    unique_iterator = (key for key, g in itertools.groupby(sorted_iterable, lambda v: v))
+    return unique_iterator
