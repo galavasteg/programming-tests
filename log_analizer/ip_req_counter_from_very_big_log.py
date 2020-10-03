@@ -1,9 +1,10 @@
+"""
+very big log: http://www.almhuette-raith.at/apache-log/access.log
+берём из него, например, 20 записей.
+Как с помощью стандартных консольных средств найти десять IP-адресов,
+от которых было больше всего запросов? Написать скрипт такого анализа.
 
-# very big log: http://www.almhuette-raith.at/apache-log/access.log
-#  берём из него, например, 20 записей.
-#  Как с помощью стандартных консольных средств найти десять IP-адресов,
-#  от которых было больше всего запросов? Написать скрипт такого анализа
-
+"""
 import urllib.request
 from collections import defaultdict
 
