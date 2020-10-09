@@ -1,19 +1,39 @@
 """
-Sort global string `A` inplace with minimal memory consumption.
-(orig.: long-long string -> sorted long-long string, no disk, no ctypes)
+Sort global string inplace with minimal memory consumption.
+(original task: long-long string -> sorted long-long string, no disk, no ctypes)
 
 """
-long_long_string = 'abchdk…abchdk,abchdkabchdk::Llk;klj;lkjl;::Lkjlabchdk...'
-alphabet = ''.join(sorted(set(long_long_string)))
+import urllib.request
 
-# not OrderedDict: from Python 3.6 regular dict is ordered by insertion order
+
+ALPHABET = 'qwertyuiopasdfghjklzxcvbnm...'
+LOG_FILE = 'http://www.almhuette-raith.at/apache-log/access.log'
+RECORDS_MAX_NUM = 5000
+
+
+long_long_string = ''
+with urllib.request.urlopen(LOG_FILE) as log_file:
+    for _ in range(RECORDS_MAX_NUM):
+        long_long_string += log_file.readline().decode()
+
+
+# ------------- CODE FROM HERE -------------
+
+def get_alpha_count(alpha) -> int:
+    alpha_filter = filter(None, map(lambda char: char == alpha,
+                                    long_long_string))
+    all_alphas = tuple(alpha_filter)  # most CPU-bound code
+    return len(all_alphas)
+
+
 alpha_count_map = {}
-for alpha in alphabet:
-    filter_alpha = filter(None, map(lambda char: char == alpha, long_long_string))
-    alpha_count_map[alpha] = len(tuple(filter_alpha))
+for alpha in ALPHABET:
+    alpha_count_map[alpha] = get_alpha_count(alpha)
 
+# free space from old string
 del long_long_string
 
+# make the same link for new object
 long_long_string = ''.join((alpha * count for alpha, count
                             in alpha_count_map.items()))
 
